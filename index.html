@@ -46,7 +46,7 @@ small{color:var(--mut)}
 </header>
 <main>
 <section class="panel">
-<div class="drop" id="drop" tabindex="0" role="button">সার্কুলারের ছবি এখানে টেনে আনুন বা ক্লিক করুন</div>
+<div class="drop" id="drop" tabindex="0" role="button">স্ক্রিনশট কপি করে <b>Ctrl+V</b> চাপুন<br><small>অথবা ছবি টেনে আনুন / ক্লিক করে বেছে নিন</small></div>
 <input type="file" id="file" accept="image/*" hidden>
 <label>পোস্টের হেডলাইন (হেডারে বসবে)<input type="text" id="title" placeholder="যেমন: বাংলাদেশ ব্যাংকে নিয়োগ বিজ্ঞপ্তি"></label>
 <label>আবেদন শুরুর তারিখ (ঐচ্ছিক)<input type="text" id="start" placeholder="যেমন: ১৫ অক্টোবর ২০২৬"></label>
@@ -125,9 +125,10 @@ drop.ondragleave=function(){drop.classList.remove('on')};
 drop.ondrop=function(e){e.preventDefault();drop.classList.remove('on');load(e.dataTransfer.files[0],function(u){img=u;drop.textContent='ছবি যোগ হয়েছে ✓ (বদলাতে আবার ক্লিক করুন)'})};
 file.onchange=function(){load(file.files[0],function(u){img=u;drop.textContent='ছবি যোগ হয়েছে ✓ (বদলাতে আবার ক্লিক করুন)'})};
 $('logo').onchange=function(){load(this.files[0],function(u){logo=u})};
+document.addEventListener('paste',function(e){var it=(e.clipboardData||{}).items||[];for(var i=0;i<it.length;i++){if(it[i].type.indexOf('image')===0){var f=it[i].getAsFile();if(f){e.preventDefault();load(f,function(u){img=u;drop.textContent='ছবি পেস্ট হয়েছে ✓ (বদলাতে আবার Ctrl+V দিন)'})}return}}});
 var tb=$('themes');Object.keys(TH).forEach(function(k){var b=document.createElement('button');b.type='button';b.className='th'+(k===cur?' on':'');b.innerHTML='<i style="background:linear-gradient(90deg,'+TH[k].a+','+TH[k].b+')"></i>'+TH[k].n;b.onclick=function(){cur=k;[].forEach.call(tb.children,function(c){c.classList.remove('on')});b.classList.add('on');draw()};tb.appendChild(b)});
 ['title','start','dead','size'].forEach(function(i){$(i).oninput=draw;$(i).onchange=draw});
-$('clear').onclick=function(){img=null;$('title').value='';$('start').value='';$('dead').value='';file.value='';drop.textContent='সার্কুলারের ছবি এখানে টেনে আনুন বা ক্লিক করুন';$('out').style.display='none';draw()};
+$('clear').onclick=function(){img=null;$('title').value='';$('start').value='';$('dead').value='';file.value='';drop.innerHTML='স্ক্রিনশট কপি করে <b>Ctrl+V</b> চাপুন<br><small>অথবা ছবি টেনে আনুন / ক্লিক করে বেছে নিন</small>';$('out').style.display='none';draw()};
 $('make').onclick=function(){draw();cv.toBlob(function(b){var u=URL.createObjectURL(b);$('res').src=u;$('out').style.display='block';
 try{var a=document.createElement('a');a.href=u;a.download='shondhan-post.png';document.body.appendChild(a);a.click();a.remove()}catch(e){}},'image/png')};
 (document.fonts&&document.fonts.load?Promise.all([document.fonts.load('700 40px "Hind Siliguri"','সন্ধান'),document.fonts.load('600 26px "Hind Siliguri"','আবেদন'),document.fonts.load('800 40px "Baloo Da 2"','সন্ধান')]).then(draw,draw):draw());
