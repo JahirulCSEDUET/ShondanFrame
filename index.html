@@ -19,7 +19,7 @@ main{max-width:1100px;margin:auto;padding:12px 16px 32px;display:grid;gap:20px;g
 @media(max-width:820px){main{grid-template-columns:minmax(0,1fr)}}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:14px;align-content:start}
 label{display:grid;gap:5px;font-weight:600;font-size:14px}
-input[type=text],select,textarea{font:inherit;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%}
+input[type=text],input[type=date],select,textarea{font:inherit;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%}
 input[type=file]{font:inherit;font-size:13px;width:100%}
 .drop{border:2px dashed var(--b);border-radius:12px;padding:18px;text-align:center;color:var(--mut);cursor:pointer}
 .drop.on{background:var(--bg)}
@@ -32,6 +32,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,.drop:focus-visibl
 .out{display:none;text-align:center;font-size:14px;color:var(--mut)}
 .out img{max-width:100%;width:260px;border-radius:8px;border:1px solid var(--line);display:block;margin:8px auto}
 small{color:var(--mut)}
+.lang{float:right;display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px}
+.lb{background:transparent;color:var(--mut);padding:6px 14px;border-radius:999px;font-size:14px}
+.lb.on{background:linear-gradient(90deg,var(--a),var(--b));color:#fff}
 [hidden]{display:none!important}
 .grp{display:grid;gap:14px}
 textarea{font:inherit;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%;resize:vertical}
@@ -47,18 +50,22 @@ textarea{font:inherit;padding:9px 10px;border:1px solid var(--line);border-radiu
 </head>
 <body>
 <header>
+<div class="lang"><button type="button" class="lb on" data-l="bn">বাংলা</button><button type="button" class="lb" data-l="en">English</button></div>
 <h1>সন্ধান – পোস্ট ফ্রেম মেকার</h1>
 <p>সার্কুলারের ছবি দিন, ফ্রেমে বসে যাবে। তারপর ডাউনলোড করে ফেসবুকে পোস্ট করুন।</p>
 </header>
 <main>
 <section class="panel">
-<div class="tabs"><button type="button" class="tab on" data-m="job">জব সার্কুলার</button><button type="button" class="tab" data-m="q">প্রশ্ন (MCQ)</button></div>
-<div id="jobF" class="grp">
+<div class="tabs"><button type="button" class="tab on" data-m="job">জব সার্কুলার</button><button type="button" class="tab" data-m="q">প্রশ্ন (MCQ)</button><button type="button" class="tab" data-m="e">Exam</button></div>
+<div id="imgF" class="grp">
 <div class="drop" id="drop" tabindex="0" role="button">স্ক্রিনশট কপি করে <b>Ctrl+V</b> চাপুন<br><small>অথবা ছবি টেনে আনুন / ক্লিক করে বেছে নিন</small></div>
 <input type="file" id="file" accept="image/*" hidden>
-<label>পোস্টের হেডলাইন (হেডারে বসবে)<input type="text" id="title" placeholder="যেমন: বাংলাদেশ ব্যাংকে নিয়োগ বিজ্ঞপ্তি"></label>
-<label>আবেদন শুরুর তারিখ (ঐচ্ছিক)<input type="text" id="start" placeholder="যেমন: ১৫ অক্টোবর ২০২৬"></label>
-<label>আবেদনের শেষ তারিখ (ঐচ্ছিক)<input type="text" id="dead" placeholder="যেমন: ৩০ অক্টোবর ২০২৬"></label>
+</div>
+<div id="jobF" class="grp">
+<label>পোস্টের হেডলাইন (হেডারে বসবে)<textarea id="title" rows="2" placeholder="যেমন: বাংলাদেশ ব্যাংকে নিয়োগ বিজ্ঞপ্তি"></textarea><small>Enter চাপলে নতুন লাইনে যাবে (সর্বোচ্চ ৩ লাইন)</small></label>
+<label>পরীক্ষার তারিখ (ঐচ্ছিক, ছবির উপরে দেখাবে)<input type="date" id="exam"></label>
+<label>আবেদন শুরুর তারিখ (ঐচ্ছিক)<input type="date" id="start"></label>
+<label>আবেদনের শেষ তারিখ (ঐচ্ছিক)<input type="date" id="dead"></label>
 </div>
 <div id="qF" class="grp" hidden>
 <label>প্রশ্ন (হেডিংয়ে বসবে)<textarea id="qtxt" rows="3" placeholder="এখানে প্রশ্ন লিখুন"></textarea></label>
@@ -67,6 +74,12 @@ textarea{font:inherit;padding:9px 10px;border:1px solid var(--line);border-radiu
 <label>অপশন C<input type="text" id="oc"></label>
 <label>অপশন D<input type="text" id="od"></label>
 <label>সঠিক উত্তর হাইলাইট করবেন? (ঐচ্ছিক)<select id="qans"><option value="">না, হাইলাইট নয়</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select></label>
+</div>
+<div id="eF" class="grp" hidden>
+<label>পরীক্ষার নাম / বিজ্ঞপ্তি (ঐচ্ছিক, হেডারে বসবে)<textarea id="etitle" rows="2" placeholder="যেমন: বাংলাদেশ ব্যাংক অফিসার নিয়োগ পরীক্ষা"></textarea></label>
+<label>পরীক্ষার ধরন (যা লিখবেন হুবহু তা-ই দেখাবে)<input type="text" id="etype" list="etypes" placeholder="যেমন: ব্যবহারিক পরীক্ষার তারিখ"></label>
+<datalist id="etypes"><option value="লিখিত পরীক্ষার তারিখ"><option value="ব্যবহারিক পরীক্ষার তারিখ"><option value="মৌখিক পরীক্ষার তারিখ"><option value="MCQ পরীক্ষার তারিখ"><option value="প্রিলিমিনারি পরীক্ষার তারিখ"><option value="দক্ষতা পরীক্ষার তারিখ"></datalist>
+<label>পরীক্ষার তারিখ<input type="date" id="edate"></label>
 </div>
 <div class="lbl">থিম<div class="themes" id="themes"></div></div>
 <label>ফ্রেমের সাইজ
@@ -87,7 +100,7 @@ var img=null,logo=new Image();logo.onload=function(){draw()};logo.src='data:imag
 var $=function(i){return document.getElementById(i)};
 function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
 function wrap(t,x,y,mw,lh,max){var w=t.split(' '),l='',n=0;for(var i=0;i<w.length;i++){var s=l?l+' '+w[i]:w[i];if(ctx.measureText(s).width>mw&&l){ctx.fillText(l,x,y+n*lh);n++;l=w[i];if(n>=max)return}else l=s}ctx.fillText(l,x,y+n*lh)}
-var TH={
+var TJ={
 blue:{n:'নীল-টিল',a:'#1f4fc4',b:'#16a6b6',bg0:'#eaf3ff',bg1:'#d2eaf5',ink:'#12285c',sub:'#41527a',ring:'#1f6fe0',mut:'#8aa0c8',sh:'rgba(18,40,92,.25)'},
 green:{n:'সবুজ',a:'#0b7a4b',b:'#4cb84a',bg0:'#eaf8ef',bg1:'#d4efdc',ink:'#0c3a28',sub:'#3d6b57',ring:'#1c9a5e',mut:'#7fae98',sh:'rgba(12,58,40,.25)'},
 purple:{n:'বেগুনি',a:'#4b2bb5',b:'#b13a9c',bg0:'#f3edff',bg1:'#e6dbf7',ink:'#2a1760',sub:'#5d4a8f',ring:'#6a3fd0',mut:'#a495cc',sh:'rgba(42,23,96,.25)'},
@@ -97,17 +110,40 @@ night:{n:'গাঢ় নেভি',a:'#0b1e3f',b:'#2a6fc9',bg0:'#1a2a4d',bg1:'
 gold:{n:'সোনালি',a:'#7a4b00',b:'#e0a800',bg0:'#fff8e1',bg1:'#f7e7b4',ink:'#3d2600',sub:'#7d6531',ring:'#b8860b',mut:'#c4a965',sh:'rgba(90,60,0,.28)'},
 red:{n:'লাল-কোরাল',a:'#cf2233',b:'#f26946',bg0:'#fff1ee',bg1:'#fdd8cf',ink:'#4a0a12',sub:'#8a4a50',ring:'#cf2233',mut:'#d0a0a0',sh:'rgba(120,10,20,.27)'}
 };
-var cur='blue',mode='job';
-function lines(t,mw,max){var w=t.split(' '),l='',o=[];for(var i=0;i<w.length;i++){var q=l?l+' '+w[i]:w[i];if(ctx.measureText(q).width>mw&&l){o.push(l);l=w[i]}else l=q}o.push(l);if(o.length>max){o=o.slice(0,max);o[max-1]+='…'}return o}
+var TQ={
+indigo:{n:'ইন্ডিগো',a:'#3730a3',b:'#6366f1',bg0:'#eef0ff',bg1:'#dadcfb',mut:'#9aa0d6',sh:'rgba(40,40,120,.28)'},
+ocean:{n:'সমুদ্র',a:'#0e7490',b:'#22b8cf',bg0:'#e6f9fc',bg1:'#c6eef5',mut:'#7fc0cc',sh:'rgba(6,70,90,.27)'},
+wine:{n:'ওয়াইন',a:'#6b1030',b:'#c2415f',bg0:'#fff0f3',bg1:'#f6d3db',mut:'#c58b9a',sh:'rgba(90,10,35,.28)'},
+forest:{n:'অরণ্য',a:'#14532d',b:'#65a30d',bg0:'#f1f9e8',bg1:'#dcefc6',mut:'#9bbf7a',sh:'rgba(20,70,30,.27)'},
+slate:{n:'চারকোল',a:'#1f2937',b:'#6b7280',bg0:'#f3f4f6',bg1:'#e0e3e8',mut:'#9ca3af',sh:'rgba(20,25,40,.3)'},
+magenta:{n:'ম্যাজেন্টা',a:'#a21caf',b:'#ec4899',bg0:'#fdf0fb',bg1:'#f6d6f2',mut:'#cf9bc9',sh:'rgba(100,10,100,.27)'},
+sky:{n:'আকাশি',a:'#0369a1',b:'#38bdf8',bg0:'#eaf6ff',bg1:'#cfe9fb',mut:'#82b6d6',sh:'rgba(5,60,100,.27)'},
+noir:{n:'নোয়ার-সোনালি',a:'#0f172a',b:'#c9971a',bg0:'#1e293b',bg1:'#0b1220',mut:'#8b93a7',sh:'rgba(0,0,0,.5)'}
+},TE={
+royal:{n:'রয়্যাল নীল',a:'#1e3a8a',b:'#3b82f6',bg0:'#eaf1ff',bg1:'#d0defb',mut:'#8ea6d8',sh:'rgba(20,40,110,.28)'},
+emerald:{n:'পান্না',a:'#065f46',b:'#10b981',bg0:'#e9faf3',bg1:'#c8efe0',mut:'#86c4ad',sh:'rgba(5,70,50,.27)'},
+sunset:{n:'সূর্যাস্ত',a:'#be123c',b:'#fb923c',bg0:'#fff1ea',bg1:'#fdd9c7',mut:'#d9a48c',sh:'rgba(130,20,40,.27)'},
+violet:{n:'ভায়োলেট',a:'#6d28d9',b:'#8b5cf6',bg0:'#f3eefe',bg1:'#e0d4fb',mut:'#ab9bd6',sh:'rgba(70,30,140,.27)'},
+earth:{n:'মাটি',a:'#78350f',b:'#d97706',bg0:'#fbf3e8',bg1:'#f0dcc0',mut:'#c9a97a',sh:'rgba(100,50,10,.28)'},
+lime:{n:'টিল-লাইম',a:'#0f766e',b:'#65a30d',bg0:'#eefaf4',bg1:'#d4eed6',mut:'#8fbf9f',sh:'rgba(10,80,60,.27)'},
+midnight:{n:'মধ্যরাত',a:'#0f172a',b:'#6366f1',bg0:'#1b2145',bg1:'#0b0f24',mut:'#8089b8',sh:'rgba(0,0,0,.5)'},
+rose:{n:'গোলাপি-অ্যাম্বার',a:'#db2777',b:'#f59e0b',bg0:'#fff1f5',bg1:'#fde0c8',mut:'#d9a0a8',sh:'rgba(130,20,60,.27)'}
+},ALL={job:TJ,q:TQ,e:TE},CUR={job:'blue',q:'indigo',e:'royal'},mode='job',TH=TJ,cur='blue',lang='bn',dropState='idle';
+var D={"সন্ধান – পোস্ট ফ্রেম মেকার": "Shondhan – Post Frame Maker", "সার্কুলারের ছবি দিন, ফ্রেমে বসে যাবে। তারপর ডাউনলোড করে ফেসবুকে পোস্ট করুন।": "Add the circular image and it fits into the frame. Then download it and post it on Facebook.", "জব সার্কুলার": "Job Circular", "প্রশ্ন (MCQ)": "Question (MCQ)", "পোস্টের হেডলাইন (হেডারে বসবে)": "Post headline (shown in the header)", "Enter চাপলে নতুন লাইনে যাবে (সর্বোচ্চ ৩ লাইন)": "Press Enter for a new line (max 3 lines)", "পরীক্ষার তারিখ (ঐচ্ছিক, ছবির উপরে দেখাবে)": "Exam date (optional, shown above the image)", "আবেদন শুরুর তারিখ (ঐচ্ছিক)": "Application start date (optional)", "আবেদনের শেষ তারিখ (ঐচ্ছিক)": "Application deadline (optional)", "প্রশ্ন (হেডিংয়ে বসবে)": "Question (shown as the heading)", "অপশন A": "Option A", "অপশন B": "Option B", "অপশন C": "Option C", "অপশন D": "Option D", "সঠিক উত্তর হাইলাইট করবেন? (ঐচ্ছিক)": "Highlight the correct answer? (optional)", "না, হাইলাইট নয়": "No highlight", "পরীক্ষার নাম / বিজ্ঞপ্তি (ঐচ্ছিক, হেডারে বসবে)": "Exam name / notice (optional, shown in the header)", "পরীক্ষার ধরন (যা লিখবেন হুবহু তা-ই দেখাবে)": "Exam type (shown exactly as you type it)", "পরীক্ষার তারিখ": "Exam date", "থিম": "Theme", "ফ্রেমের সাইজ": "Frame size", "অটো – ছবির সাইজ অনুযায়ী ফ্রেম বড়/ছোট হবে": "Auto – frame resizes to fit the content", "বর্গ (১:১) – 1080×1080": "Square (1:1) – 1080×1080", "পোর্ট্রেট (৪:৫) – 1080×1350": "Portrait (4:5) – 1080×1350", "লোগো বদলাতে চান? (ঐচ্ছিক, ডিফল্ট লোগো বসানো আছে)": "Change the logo? (optional, the default logo is already set)", "ছবি তৈরি করুন": "Create image", "মুছে ফেলুন": "Clear", "তৈরি!": "Done!", "ডাউনলোড না হলে নিচের ছবিতে ডান ক্লিক (বা মোবাইলে চেপে ধরে) “ছবি সংরক্ষণ” দিন।": "If it did not download, right-click the image below (or long-press on mobile) and choose “Save image”.", "যেমন: বাংলাদেশ ব্যাংকে নিয়োগ বিজ্ঞপ্তি": "e.g. Job circular at Bangladesh Bank", "এখানে প্রশ্ন লিখুন": "Write the question here", "যেমন: বাংলাদেশ ব্যাংক অফিসার নিয়োগ পরীক্ষা": "e.g. Bangladesh Bank Officer recruitment exam", "যেমন: ব্যবহারিক পরীক্ষার তারিখ": "e.g. Practical exam date", "লিখিত পরীক্ষার তারিখ": "Written exam date", "ব্যবহারিক পরীক্ষার তারিখ": "Practical exam date", "মৌখিক পরীক্ষার তারিখ": "Oral exam date", "MCQ পরীক্ষার তারিখ": "MCQ exam date", "প্রিলিমিনারি পরীক্ষার তারিখ": "Preliminary exam date", "দক্ষতা পরীক্ষার তারিখ": "Skill test date", "নীল-টিল": "Blue-Teal", "সবুজ": "Green", "বেগুনি": "Purple", "কমলা": "Orange", "গোলাপি": "Pink", "গাঢ় নেভি": "Dark Navy", "সোনালি": "Gold", "লাল-কোরাল": "Red-Coral", "ইন্ডিগো": "Indigo", "সমুদ্র": "Ocean", "ওয়াইন": "Wine", "অরণ্য": "Forest", "চারকোল": "Charcoal", "ম্যাজেন্টা": "Magenta", "আকাশি": "Sky", "নোয়ার-সোনালি": "Noir Gold", "রয়্যাল নীল": "Royal Blue", "পান্না": "Emerald", "সূর্যাস্ত": "Sunset", "ভায়োলেট": "Violet", "মাটি": "Earth", "টিল-লাইম": "Teal-Lime", "মধ্যরাত": "Midnight", "গোলাপি-অ্যাম্বার": "Rose-Amber", "নিয়োগ বিজ্ঞপ্তি": "Job Circular", "আবেদন শুরু: ": "Applications open: ", "শেষ তারিখ: ": "Deadline: ", "আবেদনের শেষ তারিখ: ": "Application deadline: ", "পরীক্ষার তারিখ: ": "Exam date: ", "এখানে সার্কুলারের ছবি বসবে": "The circular image goes here", "পরীক্ষার বিজ্ঞপ্তি": "Exam Notice", "অপশন ": "Option ", "ব্যবহারিক পরীক্ষার তারিখ: ১২/১২/২০২৬": "Practical exam date: 12/12/2026", "বিভিন্ন জব সার্কুলার": "Get all job circulars", "পেতে ফলো করুন": "Follow us"};
+function tx(k){return lang==='en'&&D[k]!==undefined?D[k]:k}
+function setDrop(st){dropState=st;var en=lang==='en';
+drop.innerHTML=st==='added'?(en?'Image added ✓ (click to change)':'ছবি যোগ হয়েছে ✓ (বদলাতে আবার ক্লিক করুন)'):st==='pasted'?(en?'Image pasted ✓ (press Ctrl+V again to change)':'ছবি পেস্ট হয়েছে ✓ (বদলাতে আবার Ctrl+V দিন)'):(en?'Copy a screenshot, then press <b>Ctrl+V</b><br><small>Or drag an image here / click to choose</small>':'স্ক্রিনশট কপি করে <b>Ctrl+V</b> চাপুন<br><small>অথবা ছবি টেনে আনুন / ক্লিক করে বেছে নিন</small>')}
+function bd(v){if(!v)return'';var p=v.split('-');var r=p[2]+'/'+p[1]+'/'+p[0];return lang==='en'?r:r.replace(/\d/g,function(d){return '০১২৩৪৫৬৭৮৯'[d]})}
+function lines(t,mw,max){var o=[];t.split('\n').forEach(function(par){if(!par.trim())return;var w=par.trim().split(/\s+/),l='';for(var i=0;i<w.length;i++){var q=l?l+' '+w[i]:w[i];if(ctx.measureText(q).width>mw&&l){o.push(l);l=w[i]}else l=q}o.push(l)});if(!o.length)o=[''];if(o.length>max){o=o.slice(0,max);o[max-1]+='…'}return o}
 function drawJob(){
 var th=TH[cur],W=1080,F='"Hind Siliguri",sans-serif',FB='"Baloo Da 2",'+F;
-var t=$('title').value.trim()||'নিয়োগ বিজ্ঞপ্তি';
-ctx.font='700 46px '+F;var tl=lines(t,W-120,2),hh=72+tl.length*58;
-var sd=$('start').value.trim(),dd=$('dead').value.trim(),items=[];
-if(sd)items.push(['আবেদন শুরু: '+sd,'#1e9e5a']);
-if(dd)items.push([(sd?'শেষ তারিখ: ':'আবেদনের শেষ তারিখ: ')+dd,'#e8453c']);
+var t=$('title').value.trim()||tx('নিয়োগ বিজ্ঞপ্তি');
+ctx.font='700 46px '+F;var tl=lines(t,W-120,3),hh=72+tl.length*58;
+var sd=bd($('start').value),dd=bd($('dead').value),ed=bd($('exam').value),ex=ed?64:0,items=[];
+if(sd)items.push([tx('আবেদন শুরু: ')+sd,'#1e9e5a']);
+if(dd)items.push([(sd?tx('শেষ তারিখ: '):tx('আবেদনের শেষ তারিখ: '))+dd,'#e8453c']);
 var fh=150,H=parseInt($('size').value,10);
-if(!H){var rt=img?img.height/img.width:0.75;H=hh+24+Math.max(420,Math.min(1700,Math.round(952*rt)+28))+(items.length?84:24)+fh}
+if(!H){var rt=img?img.height/img.width:0.75;H=hh+24+ex+Math.max(420,Math.min(1700,Math.round(952*rt)+28))+(items.length?84:24)+fh}
 cv.height=H;
 var g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,th.bg0);g.addColorStop(1,th.bg1);
 ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
@@ -116,12 +152,15 @@ var hg=ctx.createLinearGradient(0,0,W,0);hg.addColorStop(0,th.a);hg.addColorStop
 ctx.fillStyle=hg;ctx.fillRect(0,0,W,hh);
 ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='alphabetic';ctx.font='700 46px '+F;
 tl.forEach(function(l,i){ctx.fillText(l,W/2,36+44+i*58)});
+if(ed){var et=tx('পরীক্ষার তারিখ: ')+ed,efs=30;ctx.font='700 '+efs+'px '+F;while(ctx.measureText(et).width>W-170&&efs>16){efs--;ctx.font='700 '+efs+'px '+F}
+var ew=Math.min(W-100,ctx.measureText(et).width+70);ctx.save();ctx.shadowColor=th.sh;ctx.shadowBlur=14;ctx.shadowOffsetY=4;ctx.fillStyle='#fff';rr((W-ew)/2,hh+16,ew,52,26);ctx.fill();ctx.restore();
+ctx.lineWidth=3;ctx.strokeStyle=th.b;rr((W-ew)/2,hh+16,ew,52,26);ctx.stroke();ctx.fillStyle=th.a;ctx.textAlign='center';ctx.fillText(et,W/2,hh+16+26+efs*0.35)}
 // image card
-var fy=H-fh,ax=50,ay=hh+24,aw=W-100,ah=fy-ay-(items.length?84:24);
+var fy=H-fh,ax=50,ay=hh+24+ex,aw=W-100,ah=fy-ay-(items.length?84:24);
 ctx.save();ctx.shadowColor=th.sh;ctx.shadowBlur=24;ctx.shadowOffsetY=8;ctx.fillStyle='#fff';rr(ax,ay,aw,ah,24);ctx.fill();ctx.restore();
 if(img){var p=14,iw=aw-2*p,ih=ah-2*p,s2=Math.min(iw/img.width,ih/img.height),dw=img.width*s2,dh=img.height*s2;
 ctx.save();rr(ax+p+(iw-dw)/2,ay+p+(ih-dh)/2,dw,dh,12);ctx.clip();ctx.drawImage(img,ax+p+(iw-dw)/2,ay+p+(ih-dh)/2,dw,dh);ctx.restore()}
-else{ctx.fillStyle=th.mut;ctx.textAlign='center';ctx.font='600 34px '+F;ctx.fillText('এখানে সার্কুলারের ছবি বসবে',W/2,ay+ah/2)}
+else{ctx.fillStyle=th.mut;ctx.textAlign='center';ctx.font='600 34px '+F;ctx.fillText(tx('এখানে সার্কুলারের ছবি বসবে'),W/2,ay+ah/2)}
 if(items.length){var by=ay+ah+16,bh=56,gap=16,bw=(aw-gap*(items.length-1))/items.length;
 items.forEach(function(it,i){var x=ax+i*(bw+gap),fs=30;ctx.font='700 '+fs+'px '+F;while(ctx.measureText(it[0]).width>bw-30&&fs>16){fs--;ctx.font='700 '+fs+'px '+F}
 ctx.fillStyle=it[1];rr(x,by,bw,bh,28);ctx.fill();ctx.fillStyle='#fff';ctx.textAlign='center';ctx.fillText(it[0],x+bw/2,by+bh/2+fs*0.35)})}
@@ -136,16 +175,16 @@ ctx.fillStyle='#fff';ctx.textAlign='left';
 ctx.font='800 62px '+FB;ctx.fillText('সন্ধান',190,fy+80);var bw2=ctx.measureText('সন্ধান').width;
 ctx.font='700 30px '+F;ctx.fillText('SHONDHAN',190+bw2+16,fy+78);
 ctx.font='600 24px '+F;ctx.fillText('Job Circular and Preparation',190,fy+116);
-ctx.textAlign='right';ctx.font='700 28px '+F;ctx.fillText('বিভিন্ন জব সার্কুলার পেতে',W-50,fy+72);ctx.fillText('ফলো করুন',W-50,fy+112);
+ctx.textAlign='right';ctx.font='700 28px '+F;ctx.fillText(tx('বিভিন্ন জব সার্কুলার'),W-50,fy+72);ctx.fillText(tx('পেতে ফলো করুন'),W-50,fy+112);
 }
-function draw(){if(mode==='q')drawQ();else drawJob()}
+function draw(){if(mode==='q')drawQ();else if(mode==='e')drawE();else drawJob()}
 function drawQ(){
 var th=TH[cur],W=1080,F='"Hind Siliguri",sans-serif',FB='"Baloo Da 2",'+F;
-var q=$('qtxt').value.trim()||'এখানে প্রশ্ন লিখুন';
+var q=$('qtxt').value.trim()||tx('এখানে প্রশ্ন লিখুন');
 ctx.font='700 44px '+F;var ql=lines(q,W-120,6),hh=72+ql.length*58;
 var L=['A','B','C','D'],ids=['oa','ob','oc','od'],ans=$('qans').value;
 ctx.font='600 36px '+F;
-var ow=W-100-190,ops=ids.map(function(id,i){var t=$(id).value.trim()||'অপশন '+L[i];var ls=lines(t,ow,4);return{t:ls,h:Math.max(100,44+ls.length*46)}});
+var ow=W-100-190,ops=ids.map(function(id,i){var t=$(id).value.trim()||tx('অপশন ')+L[i];var ls=lines(t,ow,4);return{t:ls,h:Math.max(100,44+ls.length*46)}});
 var total=3*22;ops.forEach(function(o){total+=o.h});
 var fh=150,need=hh+72+total+fh,H=Math.max(parseInt($('size').value,10)||0,need);
 cv.height=H;
@@ -178,7 +217,45 @@ ctx.fillStyle='#fff';ctx.textAlign='left';
 ctx.font='800 62px '+FB;ctx.fillText('সন্ধান',190,fy+80);var bw2=ctx.measureText('সন্ধান').width;
 ctx.font='700 30px '+F;ctx.fillText('SHONDHAN',190+bw2+16,fy+78);
 ctx.font='600 24px '+F;ctx.fillText('Job Circular and Preparation',190,fy+116);
-ctx.textAlign='right';ctx.font='700 28px '+F;ctx.fillText('বিভিন্ন জব সার্কুলার পেতে',W-50,fy+72);ctx.fillText('ফলো করুন',W-50,fy+112);
+ctx.textAlign='right';ctx.font='700 28px '+F;ctx.fillText(tx('বিভিন্ন জব সার্কুলার'),W-50,fy+72);ctx.fillText(tx('পেতে ফলো করুন'),W-50,fy+112);
+}
+function drawE(){
+var th=TH[cur],W=1080,F='"Hind Siliguri",sans-serif',FB='"Baloo Da 2",'+F;
+var t=$('etitle').value.trim()||tx('পরীক্ষার বিজ্ঞপ্তি');
+ctx.font='700 46px '+F;var tl=lines(t,W-120,3),hh=72+tl.length*58;
+var et=$('etype').value.trim(),ed=bd($('edate').value);
+var line=et?(ed?et+': '+ed:et):(ed||tx('ব্যবহারিক পরীক্ষার তারিখ: ১২/১২/২০২৬'));
+var hasImg=!!img,pb=72,fh=150;
+var ah0=hasImg?Math.max(420,Math.min(1700,Math.round(952*img.height/img.width)+28)):0;
+var need=hasImg?hh+24+pb+24+ah0+24+fh:hh+36+pb+36+fh,H=Math.max(parseInt($('size').value,10)||0,need,hasImg?0:520);
+cv.height=H;
+var g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,th.bg0);g.addColorStop(1,th.bg1);
+ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+var hg=ctx.createLinearGradient(0,0,W,0);hg.addColorStop(0,th.a);hg.addColorStop(1,th.b);
+ctx.fillStyle=hg;ctx.fillRect(0,0,W,hh);
+ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='alphabetic';ctx.font='700 46px '+F;
+tl.forEach(function(l,i){ctx.fillText(l,W/2,36+44+i*58)});
+var fy=H-fh,py=hasImg?hh+24:hh+(fy-hh-pb)/2;
+// slim one-line date box
+ctx.save();ctx.shadowColor=th.sh;ctx.shadowBlur=18;ctx.shadowOffsetY=6;
+var pg=ctx.createLinearGradient(50,0,W-50,0);pg.addColorStop(0,th.a);pg.addColorStop(1,th.b);ctx.fillStyle=pg;rr(50,py,W-100,pb,pb/2);ctx.fill();ctx.restore();
+var fs=36;ctx.font='700 '+fs+'px '+F;while(ctx.measureText(line).width>W-100-80&&fs>18){fs--;ctx.font='700 '+fs+'px '+F}
+ctx.fillStyle='#fff';ctx.textAlign='center';ctx.fillText(line,W/2,py+pb/2+fs*0.35);
+if(hasImg){var ay2=py+pb+24,ah2=fy-ay2-24,ax2=50,aw2=W-100;
+ctx.save();ctx.shadowColor=th.sh;ctx.shadowBlur=24;ctx.shadowOffsetY=8;ctx.fillStyle='#fff';rr(ax2,ay2,aw2,ah2,24);ctx.fill();ctx.restore();
+var pd=14,iw3=aw2-2*pd,ih3=ah2-2*pd,s3=Math.min(iw3/img.width,ih3/img.height),dw3=img.width*s3,dh3=img.height*s3;
+ctx.save();rr(ax2+pd+(iw3-dw3)/2,ay2+pd+(ih3-dh3)/2,dw3,dh3,12);ctx.clip();ctx.drawImage(img,ax2+pd+(iw3-dw3)/2,ay2+pd+(ih3-dh3)/2,dw3,dh3);ctx.restore()}
+var fg=ctx.createLinearGradient(0,fy,W,fy);fg.addColorStop(0,th.a);fg.addColorStop(1,th.b);ctx.fillStyle=fg;ctx.fillRect(0,fy,W,fh);
+var cx2=108,cy2=fy+fh/2,r=54;
+ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(cx2,cy2,r+5,0,7);ctx.fill();
+ctx.save();ctx.beginPath();ctx.arc(cx2,cy2,r,0,7);ctx.clip();ctx.fillStyle='#fff';ctx.fillRect(cx2-r,cy2-r,2*r,2*r);
+if(logo&&logo.width){var sc=Math.max(2*r/logo.width,2*r/logo.height);ctx.drawImage(logo,cx2-logo.width*sc/2,cy2-logo.height*sc/2,logo.width*sc,logo.height*sc)}
+ctx.restore();
+ctx.fillStyle='#fff';ctx.textAlign='left';
+ctx.font='800 62px '+FB;ctx.fillText('সন্ধান',190,fy+80);var bw2=ctx.measureText('সন্ধান').width;
+ctx.font='700 30px '+F;ctx.fillText('SHONDHAN',190+bw2+16,fy+78);
+ctx.font='600 24px '+F;ctx.fillText('Job Circular and Preparation',190,fy+116);
+ctx.textAlign='right';ctx.font='700 28px '+F;ctx.fillText(tx('বিভিন্ন জব সার্কুলার'),W-50,fy+72);ctx.fillText(tx('পেতে ফলো করুন'),W-50,fy+112);
 }
 function load(f,cb){if(!f)return;var u=new Image();u.onload=function(){cb(u);draw()};u.src=URL.createObjectURL(f)}
 var drop=$('drop'),file=$('file');
@@ -186,18 +263,36 @@ drop.onclick=function(){file.click()};
 drop.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();file.click()}};
 drop.ondragover=function(e){e.preventDefault();drop.classList.add('on')};
 drop.ondragleave=function(){drop.classList.remove('on')};
-drop.ondrop=function(e){e.preventDefault();drop.classList.remove('on');load(e.dataTransfer.files[0],function(u){img=u;drop.textContent='ছবি যোগ হয়েছে ✓ (বদলাতে আবার ক্লিক করুন)'})};
-file.onchange=function(){load(file.files[0],function(u){img=u;drop.textContent='ছবি যোগ হয়েছে ✓ (বদলাতে আবার ক্লিক করুন)'})};
+drop.ondrop=function(e){e.preventDefault();drop.classList.remove('on');load(e.dataTransfer.files[0],function(u){img=u;setDrop('added')})};
+file.onchange=function(){load(file.files[0],function(u){img=u;setDrop('added')})};
 $('logo').onchange=function(){load(this.files[0],function(u){logo=u})};
-document.addEventListener('paste',function(e){var it=(e.clipboardData||{}).items||[];for(var i=0;i<it.length;i++){if(it[i].type.indexOf('image')===0){var f=it[i].getAsFile();if(f){e.preventDefault();load(f,function(u){img=u;drop.textContent='ছবি পেস্ট হয়েছে ✓ (বদলাতে আবার Ctrl+V দিন)'})}return}}});
+document.addEventListener('paste',function(e){var it=(e.clipboardData||{}).items||[];for(var i=0;i<it.length;i++){if(it[i].type.indexOf('image')===0){var f=it[i].getAsFile();if(f){e.preventDefault();load(f,function(u){img=u;setDrop('pasted')})}return}}});
 var tabs=document.querySelectorAll('.tab');
-[].forEach.call(tabs,function(b){b.onclick=function(){mode=b.dataset.m;[].forEach.call(tabs,function(t){t.classList.toggle('on',t===b)});$('jobF').hidden=mode!=='job';$('qF').hidden=mode!=='q';draw()}});
-['qtxt','oa','ob','oc','od','qans'].forEach(function(i){$(i).oninput=draw;$(i).onchange=draw});
-var tb=$('themes');Object.keys(TH).forEach(function(k){var b=document.createElement('button');b.type='button';b.className='th'+(k===cur?' on':'');b.innerHTML='<i style="background:linear-gradient(90deg,'+TH[k].a+','+TH[k].b+')"></i>'+TH[k].n;b.onclick=function(){cur=k;[].forEach.call(tb.children,function(c){c.classList.remove('on')});b.classList.add('on');draw()};tb.appendChild(b)});
-['title','start','dead','size'].forEach(function(i){$(i).oninput=draw;$(i).onchange=draw});
-$('clear').onclick=function(){['qtxt','oa','ob','oc','od'].forEach(function(i){$(i).value=''});$('qans').value='';img=null;$('title').value='';$('start').value='';$('dead').value='';file.value='';drop.innerHTML='স্ক্রিনশট কপি করে <b>Ctrl+V</b> চাপুন<br><small>অথবা ছবি টেনে আনুন / ক্লিক করে বেছে নিন</small>';$('out').style.display='none';draw()};
+[].forEach.call(tabs,function(b){b.onclick=function(){mode=b.dataset.m;TH=ALL[mode];cur=CUR[mode];buildThemes();[].forEach.call(tabs,function(t){t.classList.toggle('on',t===b)});$('imgF').hidden=mode==='q';$('jobF').hidden=mode!=='job';$('qF').hidden=mode!=='q';$('eF').hidden=mode!=='e';draw()}});
+['qtxt','oa','ob','oc','od','qans','etitle','etype','edate'].forEach(function(i){$(i).oninput=draw;$(i).onchange=draw});
+['exam','start','dead','edate'].forEach(function(i){var el=$(i);el.addEventListener('click',function(){try{el.showPicker()}catch(e){}})});
+var tb=$('themes');
+function buildThemes(){tb.innerHTML='';Object.keys(TH).forEach(function(k){var b=document.createElement('button');b.type='button';b.className='th'+(k===cur?' on':'');b.innerHTML='<i style="background:linear-gradient(90deg,'+TH[k].a+','+TH[k].b+')"></i>'+tx(TH[k].n);b.onclick=function(){cur=k;CUR[mode]=k;[].forEach.call(tb.children,function(c){c.classList.remove('on')});b.classList.add('on');draw()};tb.appendChild(b)})}
+buildThemes();
+['title','exam','start','dead','size'].forEach(function(i){$(i).oninput=draw;$(i).onchange=draw});
+$('clear').onclick=function(){['qtxt','oa','ob','oc','od','etitle','etype','edate'].forEach(function(i){$(i).value=''});$('qans').value='';img=null;$('title').value='';$('exam').value='';$('start').value='';$('dead').value='';file.value='';setDrop('idle');$('out').style.display='none';draw()};
 $('make').onclick=function(){draw();cv.toBlob(function(b){var u=URL.createObjectURL(b);$('res').src=u;$('out').style.display='block';
 try{var a=document.createElement('a');a.href=u;a.download='shondhan-post.png';document.body.appendChild(a);a.click();a.remove()}catch(e){}},'image/png')};
+
+var tN=[],aN=[];
+(function(){var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null),n;
+while(n=w.nextNode()){var p=n.parentNode;if(p.closest&&(p.closest('#drop')||p.closest('#themes')||p.closest('script')))continue;var k=n.nodeValue.trim();if(k&&D[k]!==undefined)tN.push({n:n,o:n.nodeValue,k:k})}
+[].forEach.call(document.querySelectorAll('[placeholder],datalist option[value]'),function(el){['placeholder','value'].forEach(function(a){var v=el.getAttribute(a);if(v&&D[v]!==undefined&&(a==='placeholder'||el.tagName==='OPTION'))aN.push({e:el,a:a,o:v})})})})();
+function applyLang(l){lang=l;
+tN.forEach(function(x){x.n.nodeValue=l==='en'?x.o.replace(x.k,D[x.k]):x.o});
+aN.forEach(function(x){x.e.setAttribute(x.a,l==='en'?D[x.o]:x.o)});
+document.title=tx('সন্ধান – পোস্ট ফ্রেম মেকার');document.documentElement.lang=l==='en'?'en':'bn';
+[].forEach.call(document.querySelectorAll('.lb'),function(b){b.classList.toggle('on',b.dataset.l===l)});
+setDrop(dropState);buildThemes();
+try{localStorage.setItem('shLang',l)}catch(e){}
+draw()}
+[].forEach.call(document.querySelectorAll('.lb'),function(b){b.onclick=function(){applyLang(b.dataset.l)}});
+try{if(localStorage.getItem('shLang')==='en')applyLang('en')}catch(e){}
 (document.fonts&&document.fonts.load?Promise.all([document.fonts.load('700 40px "Hind Siliguri"','সন্ধান'),document.fonts.load('600 26px "Hind Siliguri"','আবেদন'),document.fonts.load('800 40px "Baloo Da 2"','সন্ধান')]).then(draw,draw):draw());
 draw();
 })();
