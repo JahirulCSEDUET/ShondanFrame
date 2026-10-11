@@ -6,9 +6,9 @@
 <title>সন্ধান – পোস্ট ফ্রেম মেকার</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Baloo+Da+2:wght@800&display=swap">
 <style>
-:root{--bg:#eef5fc;--card:#fff;--ink:#12285c;--mut:#5b6b8c;--line:#d3e0f1;--a:#1f4fc4;--b:#16a6b6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1730;--card:#15213f;--ink:#e8efff;--mut:#9fb0d4;--line:#26365f}}
-:root[data-theme="dark"]{--bg:#0d1730;--card:#15213f;--ink:#e8efff;--mut:#9fb0d4;--line:#26365f}
+:root{--bg:#eaf7ee;--card:#fff;--ink:#123524;--mut:#4f7a62;--line:#cde6d4;--a:#15803d;--b:#25a45a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1f16;--card:#14291e;--ink:#e4f6ea;--mut:#9bc4aa;--line:#24432f}}
+:root[data-theme="dark"]{--bg:#0d1f16;--card:#14291e;--ink:#e4f6ea;--mut:#9bc4aa;--line:#24432f}
 *{box-sizing:border-box}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hind Siliguri",system-ui,sans-serif;line-height:1.5}
@@ -38,9 +38,9 @@ small{color:var(--mut)}
 [hidden]{display:none!important}
 .grp{display:grid;gap:14px}
 textarea{font:inherit;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%;resize:vertical}
-.tabs{display:flex;gap:6px;background:var(--bg);padding:4px;border-radius:12px;border:1px solid var(--line)}
-.tab{flex:1;background:transparent;color:var(--mut)}
-.tab.on{background:linear-gradient(90deg,var(--a),var(--b));color:#fff}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{flex:0 0 auto;padding:6px 16px;font-size:14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);white-space:nowrap}
+.tab.on{background:linear-gradient(90deg,var(--a),var(--b));color:#fff;border-color:transparent}
 .lbl{display:grid;gap:5px;font-weight:600;font-size:14px}
 .themes{display:flex;gap:8px;flex-wrap:wrap}
 .th{flex:1 1 72px;border:2px solid var(--line);border-radius:10px;padding:6px;background:var(--bg);color:var(--ink);font-size:13px;font-weight:600;display:grid;gap:5px;justify-items:center}
@@ -56,7 +56,7 @@ textarea{font:inherit;padding:9px 10px;border:1px solid var(--line);border-radiu
 </header>
 <main>
 <section class="panel">
-<div class="tabs"><button type="button" class="tab on" data-m="job">জব সার্কুলার</button><button type="button" class="tab" data-m="q">প্রশ্ন (MCQ)</button><button type="button" class="tab" data-m="e">Exam</button></div>
+<div class="tabs"><button type="button" class="tab on" data-m="job">জব</button><button type="button" class="tab" data-m="e">এক্সাম</button><button type="button" class="tab" data-m="q">MCQ</button></div>
 <div id="imgF" class="grp">
 <div class="drop" id="drop" tabindex="0" role="button">স্ক্রিনশট কপি করে <b>Ctrl+V</b> চাপুন<br><small>অথবা ছবি টেনে আনুন / ক্লিক করে বেছে নিন</small></div>
 <input type="file" id="file" accept="image/*" hidden>
@@ -129,7 +129,7 @@ lime:{n:'টিল-লাইম',a:'#0f766e',b:'#65a30d',bg0:'#eefaf4',bg1:'#d4e
 midnight:{n:'মধ্যরাত',a:'#0f172a',b:'#6366f1',bg0:'#1b2145',bg1:'#0b0f24',mut:'#8089b8',sh:'rgba(0,0,0,.5)'},
 rose:{n:'গোলাপি-অ্যাম্বার',a:'#db2777',b:'#f59e0b',bg0:'#fff1f5',bg1:'#fde0c8',mut:'#d9a0a8',sh:'rgba(130,20,60,.27)'}
 },ALL={job:TJ,q:TQ,e:TE},CUR={job:'blue',q:'indigo',e:'royal'},mode='job',TH=TJ,cur='blue',lang='bn',dropState='idle';
-var D={"সন্ধান – পোস্ট ফ্রেম মেকার": "Shondhan – Post Frame Maker", "সার্কুলারের ছবি দিন, ফ্রেমে বসে যাবে। তারপর ডাউনলোড করে ফেসবুকে পোস্ট করুন।": "Add the circular image and it fits into the frame. Then download it and post it on Facebook.", "জব সার্কুলার": "Job Circular", "প্রশ্ন (MCQ)": "Question (MCQ)", "পোস্টের হেডলাইন (হেডারে বসবে)": "Post headline (shown in the header)", "Enter চাপলে নতুন লাইনে যাবে (সর্বোচ্চ ৩ লাইন)": "Press Enter for a new line (max 3 lines)", "পরীক্ষার তারিখ (ঐচ্ছিক, ছবির উপরে দেখাবে)": "Exam date (optional, shown above the image)", "আবেদন শুরুর তারিখ (ঐচ্ছিক)": "Application start date (optional)", "আবেদনের শেষ তারিখ (ঐচ্ছিক)": "Application deadline (optional)", "প্রশ্ন (হেডিংয়ে বসবে)": "Question (shown as the heading)", "অপশন A": "Option A", "অপশন B": "Option B", "অপশন C": "Option C", "অপশন D": "Option D", "সঠিক উত্তর হাইলাইট করবেন? (ঐচ্ছিক)": "Highlight the correct answer? (optional)", "না, হাইলাইট নয়": "No highlight", "পরীক্ষার নাম / বিজ্ঞপ্তি (ঐচ্ছিক, হেডারে বসবে)": "Exam name / notice (optional, shown in the header)", "পরীক্ষার ধরন (যা লিখবেন হুবহু তা-ই দেখাবে)": "Exam type (shown exactly as you type it)", "পরীক্ষার তারিখ": "Exam date", "থিম": "Theme", "ফ্রেমের সাইজ": "Frame size", "অটো – ছবির সাইজ অনুযায়ী ফ্রেম বড়/ছোট হবে": "Auto – frame resizes to fit the content", "বর্গ (১:১) – 1080×1080": "Square (1:1) – 1080×1080", "পোর্ট্রেট (৪:৫) – 1080×1350": "Portrait (4:5) – 1080×1350", "লোগো বদলাতে চান? (ঐচ্ছিক, ডিফল্ট লোগো বসানো আছে)": "Change the logo? (optional, the default logo is already set)", "ছবি তৈরি করুন": "Create image", "মুছে ফেলুন": "Clear", "তৈরি!": "Done!", "ডাউনলোড না হলে নিচের ছবিতে ডান ক্লিক (বা মোবাইলে চেপে ধরে) “ছবি সংরক্ষণ” দিন।": "If it did not download, right-click the image below (or long-press on mobile) and choose “Save image”.", "যেমন: বাংলাদেশ ব্যাংকে নিয়োগ বিজ্ঞপ্তি": "e.g. Job circular at Bangladesh Bank", "এখানে প্রশ্ন লিখুন": "Write the question here", "যেমন: বাংলাদেশ ব্যাংক অফিসার নিয়োগ পরীক্ষা": "e.g. Bangladesh Bank Officer recruitment exam", "যেমন: ব্যবহারিক পরীক্ষার তারিখ": "e.g. Practical exam date", "লিখিত পরীক্ষার তারিখ": "Written exam date", "ব্যবহারিক পরীক্ষার তারিখ": "Practical exam date", "মৌখিক পরীক্ষার তারিখ": "Oral exam date", "MCQ পরীক্ষার তারিখ": "MCQ exam date", "প্রিলিমিনারি পরীক্ষার তারিখ": "Preliminary exam date", "দক্ষতা পরীক্ষার তারিখ": "Skill test date", "নীল-টিল": "Blue-Teal", "সবুজ": "Green", "বেগুনি": "Purple", "কমলা": "Orange", "গোলাপি": "Pink", "গাঢ় নেভি": "Dark Navy", "সোনালি": "Gold", "লাল-কোরাল": "Red-Coral", "ইন্ডিগো": "Indigo", "সমুদ্র": "Ocean", "ওয়াইন": "Wine", "অরণ্য": "Forest", "চারকোল": "Charcoal", "ম্যাজেন্টা": "Magenta", "আকাশি": "Sky", "নোয়ার-সোনালি": "Noir Gold", "রয়্যাল নীল": "Royal Blue", "পান্না": "Emerald", "সূর্যাস্ত": "Sunset", "ভায়োলেট": "Violet", "মাটি": "Earth", "টিল-লাইম": "Teal-Lime", "মধ্যরাত": "Midnight", "গোলাপি-অ্যাম্বার": "Rose-Amber", "নিয়োগ বিজ্ঞপ্তি": "Job Circular", "আবেদন শুরু: ": "Applications open: ", "শেষ তারিখ: ": "Deadline: ", "আবেদনের শেষ তারিখ: ": "Application deadline: ", "পরীক্ষার তারিখ: ": "Exam date: ", "এখানে সার্কুলারের ছবি বসবে": "The circular image goes here", "পরীক্ষার বিজ্ঞপ্তি": "Exam Notice", "অপশন ": "Option ", "ব্যবহারিক পরীক্ষার তারিখ: ১২/১২/২০২৬": "Practical exam date: 12/12/2026", "বিভিন্ন জব সার্কুলার": "Get all job circulars", "পেতে ফলো করুন": "Follow us"};
+var D={"সন্ধান – পোস্ট ফ্রেম মেকার": "Shondhan – Post Frame Maker", "সার্কুলারের ছবি দিন, ফ্রেমে বসে যাবে। তারপর ডাউনলোড করে ফেসবুকে পোস্ট করুন।": "Add the circular image and it fits into the frame. Then download it and post it on Facebook.", "পোস্টের হেডলাইন (হেডারে বসবে)": "Post headline (shown in the header)", "Enter চাপলে নতুন লাইনে যাবে (সর্বোচ্চ ৩ লাইন)": "Press Enter for a new line (max 3 lines)", "পরীক্ষার তারিখ (ঐচ্ছিক, ছবির উপরে দেখাবে)": "Exam date (optional, shown above the image)", "আবেদন শুরুর তারিখ (ঐচ্ছিক)": "Application start date (optional)", "আবেদনের শেষ তারিখ (ঐচ্ছিক)": "Application deadline (optional)", "প্রশ্ন (হেডিংয়ে বসবে)": "Question (shown as the heading)", "অপশন A": "Option A", "অপশন B": "Option B", "অপশন C": "Option C", "অপশন D": "Option D", "সঠিক উত্তর হাইলাইট করবেন? (ঐচ্ছিক)": "Highlight the correct answer? (optional)", "না, হাইলাইট নয়": "No highlight", "পরীক্ষার নাম / বিজ্ঞপ্তি (ঐচ্ছিক, হেডারে বসবে)": "Exam name / notice (optional, shown in the header)", "পরীক্ষার ধরন (যা লিখবেন হুবহু তা-ই দেখাবে)": "Exam type (shown exactly as you type it)", "পরীক্ষার তারিখ": "Exam date", "থিম": "Theme", "ফ্রেমের সাইজ": "Frame size", "অটো – ছবির সাইজ অনুযায়ী ফ্রেম বড়/ছোট হবে": "Auto – frame resizes to fit the content", "বর্গ (১:১) – 1080×1080": "Square (1:1) – 1080×1080", "পোর্ট্রেট (৪:৫) – 1080×1350": "Portrait (4:5) – 1080×1350", "লোগো বদলাতে চান? (ঐচ্ছিক, ডিফল্ট লোগো বসানো আছে)": "Change the logo? (optional, the default logo is already set)", "ছবি তৈরি করুন": "Create image", "মুছে ফেলুন": "Clear", "তৈরি!": "Done!", "ডাউনলোড না হলে নিচের ছবিতে ডান ক্লিক (বা মোবাইলে চেপে ধরে) “ছবি সংরক্ষণ” দিন।": "If it did not download, right-click the image below (or long-press on mobile) and choose “Save image”.", "যেমন: বাংলাদেশ ব্যাংকে নিয়োগ বিজ্ঞপ্তি": "e.g. Job circular at Bangladesh Bank", "এখানে প্রশ্ন লিখুন": "Write the question here", "যেমন: বাংলাদেশ ব্যাংক অফিসার নিয়োগ পরীক্ষা": "e.g. Bangladesh Bank Officer recruitment exam", "যেমন: ব্যবহারিক পরীক্ষার তারিখ": "e.g. Practical exam date", "লিখিত পরীক্ষার তারিখ": "Written exam date", "ব্যবহারিক পরীক্ষার তারিখ": "Practical exam date", "মৌখিক পরীক্ষার তারিখ": "Oral exam date", "MCQ পরীক্ষার তারিখ": "MCQ exam date", "প্রিলিমিনারি পরীক্ষার তারিখ": "Preliminary exam date", "দক্ষতা পরীক্ষার তারিখ": "Skill test date", "নীল-টিল": "Blue-Teal", "সবুজ": "Green", "বেগুনি": "Purple", "কমলা": "Orange", "গোলাপি": "Pink", "গাঢ় নেভি": "Dark Navy", "সোনালি": "Gold", "লাল-কোরাল": "Red-Coral", "ইন্ডিগো": "Indigo", "সমুদ্র": "Ocean", "ওয়াইন": "Wine", "অরণ্য": "Forest", "চারকোল": "Charcoal", "ম্যাজেন্টা": "Magenta", "আকাশি": "Sky", "নোয়ার-সোনালি": "Noir Gold", "রয়্যাল নীল": "Royal Blue", "পান্না": "Emerald", "সূর্যাস্ত": "Sunset", "ভায়োলেট": "Violet", "মাটি": "Earth", "টিল-লাইম": "Teal-Lime", "মধ্যরাত": "Midnight", "গোলাপি-অ্যাম্বার": "Rose-Amber", "নিয়োগ বিজ্ঞপ্তি": "Job Circular", "আবেদন শুরু: ": "Applications open: ", "শেষ তারিখ: ": "Deadline: ", "আবেদনের শেষ তারিখ: ": "Application deadline: ", "পরীক্ষার তারিখ: ": "Exam date: ", "এখানে সার্কুলারের ছবি বসবে": "The circular image goes here", "পরীক্ষার বিজ্ঞপ্তি": "Exam Notice", "অপশন ": "Option ", "ব্যবহারিক পরীক্ষার তারিখ: ১২/১২/২০২৬": "Practical exam date: 12/12/2026", "জব": "Job", "এক্সাম": "Exam", "বিভিন্ন জব সার্কুলার পেতে": "To get all job circulars", "ফলো করুন": "follow us"};
 function tx(k){return lang==='en'&&D[k]!==undefined?D[k]:k}
 function setDrop(st){dropState=st;var en=lang==='en';
 drop.innerHTML=st==='added'?(en?'Image added ✓ (click to change)':'ছবি যোগ হয়েছে ✓ (বদলাতে আবার ক্লিক করুন)'):st==='pasted'?(en?'Image pasted ✓ (press Ctrl+V again to change)':'ছবি পেস্ট হয়েছে ✓ (বদলাতে আবার Ctrl+V দিন)'):(en?'Copy a screenshot, then press <b>Ctrl+V</b><br><small>Or drag an image here / click to choose</small>':'স্ক্রিনশট কপি করে <b>Ctrl+V</b> চাপুন<br><small>অথবা ছবি টেনে আনুন / ক্লিক করে বেছে নিন</small>')}
@@ -175,7 +175,7 @@ ctx.fillStyle='#fff';ctx.textAlign='left';
 ctx.font='800 62px '+FB;ctx.fillText('সন্ধান',190,fy+80);var bw2=ctx.measureText('সন্ধান').width;
 ctx.font='700 30px '+F;ctx.fillText('SHONDHAN',190+bw2+16,fy+78);
 ctx.font='600 24px '+F;ctx.fillText('Job Circular and Preparation',190,fy+116);
-ctx.textAlign='right';ctx.font='700 28px '+F;ctx.fillText(tx('বিভিন্ন জব সার্কুলার'),W-50,fy+72);ctx.fillText(tx('পেতে ফলো করুন'),W-50,fy+112);
+ctx.textAlign='right';ctx.font='700 28px '+F;ctx.fillText(tx('বিভিন্ন জব সার্কুলার পেতে'),W-50,fy+72);ctx.fillText(tx('ফলো করুন'),W-50,fy+112);
 }
 function draw(){if(mode==='q')drawQ();else if(mode==='e')drawE();else drawJob()}
 function drawQ(){
@@ -217,7 +217,7 @@ ctx.fillStyle='#fff';ctx.textAlign='left';
 ctx.font='800 62px '+FB;ctx.fillText('সন্ধান',190,fy+80);var bw2=ctx.measureText('সন্ধান').width;
 ctx.font='700 30px '+F;ctx.fillText('SHONDHAN',190+bw2+16,fy+78);
 ctx.font='600 24px '+F;ctx.fillText('Job Circular and Preparation',190,fy+116);
-ctx.textAlign='right';ctx.font='700 28px '+F;ctx.fillText(tx('বিভিন্ন জব সার্কুলার'),W-50,fy+72);ctx.fillText(tx('পেতে ফলো করুন'),W-50,fy+112);
+ctx.textAlign='right';ctx.font='700 28px '+F;ctx.fillText(tx('বিভিন্ন জব সার্কুলার পেতে'),W-50,fy+72);ctx.fillText(tx('ফলো করুন'),W-50,fy+112);
 }
 function drawE(){
 var th=TH[cur],W=1080,F='"Hind Siliguri",sans-serif',FB='"Baloo Da 2",'+F;
@@ -255,7 +255,7 @@ ctx.fillStyle='#fff';ctx.textAlign='left';
 ctx.font='800 62px '+FB;ctx.fillText('সন্ধান',190,fy+80);var bw2=ctx.measureText('সন্ধান').width;
 ctx.font='700 30px '+F;ctx.fillText('SHONDHAN',190+bw2+16,fy+78);
 ctx.font='600 24px '+F;ctx.fillText('Job Circular and Preparation',190,fy+116);
-ctx.textAlign='right';ctx.font='700 28px '+F;ctx.fillText(tx('বিভিন্ন জব সার্কুলার'),W-50,fy+72);ctx.fillText(tx('পেতে ফলো করুন'),W-50,fy+112);
+ctx.textAlign='right';ctx.font='700 28px '+F;ctx.fillText(tx('বিভিন্ন জব সার্কুলার পেতে'),W-50,fy+72);ctx.fillText(tx('ফলো করুন'),W-50,fy+112);
 }
 function load(f,cb){if(!f)return;var u=new Image();u.onload=function(){cb(u);draw()};u.src=URL.createObjectURL(f)}
 var drop=$('drop'),file=$('file');
